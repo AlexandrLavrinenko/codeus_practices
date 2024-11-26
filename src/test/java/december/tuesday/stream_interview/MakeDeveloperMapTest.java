@@ -1,10 +1,9 @@
 package december.tuesday.stream_interview;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,8 @@ class MakeDeveloperMapTest {
         developers = List.of(
                 new MakeDeveloperMap.Developer(1, "John Doe"),
                 new MakeDeveloperMap.Developer(2, "Jane Doe"),
-                new MakeDeveloperMap.Developer(3, "Jack Doe")
+                new MakeDeveloperMap.Developer(3, "Jack Doe"),
+                new MakeDeveloperMap.Developer(5, "New position")
         );
 
         /* Initialize assignments */
@@ -38,7 +38,8 @@ class MakeDeveloperMapTest {
                 new MakeDeveloperMap.Assignment(7, 2),
                 new MakeDeveloperMap.Assignment(8, 3),
                 new MakeDeveloperMap.Assignment(9, 3),
-                new MakeDeveloperMap.Assignment(10, 3)
+                new MakeDeveloperMap.Assignment(10, 3),
+                new MakeDeveloperMap.Assignment(13, 1)
         );
 
         /* Task initialization */
@@ -61,13 +62,14 @@ class MakeDeveloperMapTest {
         expected.put("John Doe", List.of("One", "Two", "Three"));
         expected.put("Jane Doe", List.of("Four", "Five", "Six", "Seven"));
         expected.put("Jack Doe", List.of("Eight", "Nine", "Ten"));
+        expected.put("New position", Collections.emptyList());
     }
 
     @Test
     void checkReport() {
         var actual = MakeDeveloperMap.report(tasks, developers, assignments);
 
-        assertEquals(3, actual.size());
+        assertEquals(expected.size(), actual.size());
         assertEquals(expected, actual);
     }
 
@@ -75,7 +77,7 @@ class MakeDeveloperMapTest {
     void checkReportWithStreams() {
         var actual = MakeDeveloperMap.reportWithStreams(tasks, developers, assignments);
 
-        assertEquals(3, actual.size());
+        assertEquals(expected.size(), actual.size());
         assertEquals(expected, actual);
     }
 
@@ -83,7 +85,7 @@ class MakeDeveloperMapTest {
     void checkReportWithAlterStreams() {
         var actual = MakeDeveloperMap.reportAlterStreams(tasks, developers, assignments);
 
-        assertEquals(3, actual.size());
+        assertEquals(expected.size(), actual.size());
         assertEquals(expected, actual);
     }
 }
