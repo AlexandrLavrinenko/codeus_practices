@@ -1,13 +1,12 @@
 package december.tuesday.stream_interview;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import errors.TaskNotCompleteException;
+
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toMap;
-
 /**
+ * The task from real interview on Middle Java Developer position.
  * Return Map where:
  * Key is Developer Name
  * Value is List of Tasks Title assigned to Developer
@@ -18,78 +17,42 @@ import static java.util.stream.Collectors.toMap;
  */
 public class MakeDeveloperMap {
 
+    /**
+     * Not Stream API method for return Developer's Map.
+     *
+     * @param tasks       list of {@link Task}.
+     * @param developers  list of {@link Developer}.
+     * @param assignments list of {@link Assignment}
+     * @return Map where:
+     * - Key is Developer Name
+     * - Value is List of Tasks Title assigned to Developer Handle.
+     */
     public static Map<String, List<String>> report(
             List<Task> tasks,
             List<Developer> developers,
             List<Assignment> assignments) {
-        var reportMap = new HashMap<String, List<String>>();
-
-        for (Developer developer : developers) {
-            var assigments = assignments.stream()
-                    .filter(as -> developer.getId() == as.getDeveloperId())
-                    .map(Assignment::getTaskId)
-                    .toList();
-
-            var tasksList = tasks.stream()
-                    .filter(tsk -> assigments.contains(tsk.getId()))
-                    .map(Task::getTitle)
-                    .toList();
-
-            reportMap.put(developer.getName(), tasksList);
-        }
-
-        return reportMap;
+        throw new TaskNotCompleteException();
     }
 
+    /**
+     * Method with Stream API for return Developer's Map.
+     * @param tasks list of {@link Task}.
+     * @param developers list of {@link Developer}.
+     * @param assignments list of {@link Assignment}
+     * @return Map where:
+     * - Key is Developer Name
+     * - Value is List of Tasks Title assigned to Developer Handle.
+     */
     public static Map<String, List<String>> reportWithStreams(
             List<Task> tasks,
             List<Developer> developers,
             List<Assignment> assignments) {
 
-        Map<Integer, String> taskMap = tasks.stream()
-                .collect(toMap(Task::getId, Task::getTitle));
-
-        Map<Integer, String> developerMap = developers.stream()
-                .collect(toMap(Developer::getId, Developer::getName));
-
-        Map<String, List<String>> report = developers.stream()
-                .collect(toMap(Developer::getName, dev -> new ArrayList<>()));
-
-        assignments.stream()
-                .filter(assignment -> taskMap.containsKey(assignment.getTaskId()))
-                .forEach(assignment -> {
-                    String developerName = developerMap.get(assignment.getDeveloperId());
-                    if (developerName != null) {
-                        report.get(developerName).add(taskMap.get(assignment.getTaskId()));
-                    }
-                });
-
-        return report;
+        throw new TaskNotCompleteException();
     }
 
-    public static Map<String, List<String>> reportAlterStreams(
-            List<Task> tasks,
-            List<Developer> developers,
-            List<Assignment> assignments) {
-
-        // Створюємо мапу завдань для швидкого доступу до заголовків завдань за їх ідентифікаторами
-        Map<Integer, String> taskMap = tasks.stream()
-                .collect(toMap(Task::getId, Task::getTitle));
-
-        return developers.stream()
-                .collect(toMap(
-                        Developer::getName,
-                        dev -> assignments.stream()
-                                .filter(a -> a.getDeveloperId() == dev.getId())
-                                .filter(a -> taskMap.containsKey(a.getTaskId()))
-                                .map(a -> taskMap.get(a.getTaskId()))
-                                .toList(),
-                        // в разі конфлікту залишаємо наявне значення
-                        (existing, replacement) -> existing
-                ));
-    }
-
-    // A method to print a map to the console
+    // A method to print a map to the console.
+    // May be useful for testing and debugging.
     private void printMap(Map<String, List<String>> map) {
         map.forEach((k, v) -> System.out.println(k + ": " + v));
     }

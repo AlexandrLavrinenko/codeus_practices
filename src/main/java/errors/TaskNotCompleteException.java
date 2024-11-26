@@ -1,7 +1,8 @@
 package errors;
 
-public class TaskNotCompleteException extends Throwable {
-    public TaskNotCompleteException(String message) {
-        super(message);
+public class TaskNotCompleteException extends RuntimeException {
+
+    public TaskNotCompleteException() {
+        super("Task not complete.");
     }
 }
