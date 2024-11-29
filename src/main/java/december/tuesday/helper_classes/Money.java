@@ -7,4 +7,9 @@ public record Money(Currency currency, int amount) {
     public double getBigAmount() {
         return amount / PENNIES;
     }
+
+    // convert to UAH equivalent
+    public double getUahEquivalent(CurrentNbuRate rate) {
+        return rate.currencyRate().get(currency) * getBigAmount();
+    }
 }
