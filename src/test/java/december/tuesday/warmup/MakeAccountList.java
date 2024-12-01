@@ -20,7 +20,7 @@ public class MakeAccountList {
         var account1 = new Account(101, 1,
                 new Money(Currency.UAH, 64000),
                 LocalDate.of(2023, 11, 26),
-                LocalDate.of(2025, 11, 26));
+                LocalDate.of(2025, 12, 26));
         var account2 = new Account(102, 2,
                 new Money(Currency.UAH, 458600),
                 LocalDate.of(2021, 6, 12),
@@ -43,7 +43,7 @@ public class MakeAccountList {
         var account6 = new Account(106, 6,
                 new Money(Currency.UAH, 2536000),
                 LocalDate.of(2022, 6, 19),
-                LocalDate.of(2024, 6, 19)
+                LocalDate.of(2024, 12, 19)
         );
         var account7 = new Account(107, 7,
                 new Money(Currency.UAH, 256000),
@@ -68,7 +68,7 @@ public class MakeAccountList {
         var account11 = new Account(111, 5,
                 new Money(Currency.USD, 23500),
                 LocalDate.of(2020, 7, 23),
-                LocalDate.of(2024, 7, 23)
+                LocalDate.of(2024, 12, 23)
         );
         var account12 = new Account(112, 9,
                 new Money(Currency.USD, 70000),
