@@ -1,3 +1,5 @@
+## Tuesday Stream Task
+
 Implement [MakeDeveloperMap](src/main/java/december/tuesday/stream_interview/MakeDeveloperMap.java) according to
 comments.
 
