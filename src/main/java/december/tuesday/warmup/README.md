@@ -1,8 +1,19 @@
 # Tuesday Warmup
 
+How well are you using the Stream API?
+
+Go
+to: [Git_Warmup](https://github.com/AlexandrLavrinenko/codeus_practices/tree/master/src/main/java/december/tuesday/stream_interview)
+pull the project.<br>
 Implement [StreamsWarmup](src/main/java/december/tuesday/warmup/StreamsWarmup.java) according to comments.
 
 Check your implementation with [StreamsWarmupTest](src/test/java/december/tuesday/warmup/StreamsWarmupTest.java).
+
+***Words of encouragement:*** <br>
+It's natural if you won't be able to handle all the tasks given the HARD level and maybe MEDIUM level.
+But the purpose of this task is to identify weak points and make them more perfect.
+
+**Time - 30 min.**
 
 ## Important to know:
 

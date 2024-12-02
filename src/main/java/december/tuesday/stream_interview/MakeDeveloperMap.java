@@ -52,7 +52,7 @@ public class MakeDeveloperMap {
     }
 
     // A method to print a map to the console.
-    // May be useful for testing and debugging.
+    // Maybe useful for testing and debugging.
     private void printMap(Map<String, List<String>> map) {
         map.forEach((k, v) -> System.out.println(k + ": " + v));
     }
