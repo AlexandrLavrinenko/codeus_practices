@@ -72,7 +72,7 @@ public class MakeDeveloperMap {
             List<Developer> developers,
             List<Assignment> assignments) {
 
-        // Створюємо мапу завдань для швидкого доступу до заголовків завдань за їх ідентифікаторами
+        // Creating a task map for quick access to task titles by their identifiers
         Map<Integer, String> taskMap = tasks.stream()
                 .collect(toMap(Task::getId, Task::getTitle));
 
