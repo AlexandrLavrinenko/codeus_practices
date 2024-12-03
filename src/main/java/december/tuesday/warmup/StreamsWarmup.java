@@ -29,7 +29,7 @@ public class StreamsWarmup {
     }
 
     /**
-     * Get count of users with several type ({@link Currency}) of account.
+     * Get count of users with several types ({@link Currency}) of an account.
      * <br> Difficulty: EASY.
      *
      * @param accounts non-empty list of accounts.
@@ -40,7 +40,7 @@ public class StreamsWarmup {
     }
 
     /**
-     * Get Total Sum UAH Equivalent For All Accounts.
+     * Get the Total Sum UAH Equivalent For All Accounts.
      * <br> Difficulty: EASY.
      *
      * @param accounts non-empty list of {@link Account}.
@@ -53,7 +53,7 @@ public class StreamsWarmup {
 
 
     /**
-     * Get the oldest user from list of Users.
+     * Get the oldest user from a list of Users.
      * <br> Difficulty: EASY.
      *
      * @param users non-empty list of {@link User}.
@@ -99,7 +99,7 @@ public class StreamsWarmup {
     }
 
     /**
-     * Get User who has max Big Amount values.
+     * Get a User who has max Big Amount values.
      * <br> Difficulty: MEDIUM.
      *
      * @param accounts list of Account.
@@ -117,7 +117,7 @@ public class StreamsWarmup {
      *
      * @param accounts non-empty list of {@link Account}.
      * @param users    non-empty list of {@link User}.
-     * @return oldest user.
+     * @return Map with user as a key and list of accountID as a value.
      */
     public Map<User, List<Integer>> getUsersWithAccIDWillBeClosedAccount(List<Account> accounts,
                                                                          List<User> users) {
@@ -149,4 +149,5 @@ public class StreamsWarmup {
                                                             CurrentNbuRate rate) {
         throw new TaskNotCompleteException();
     }
+
 }

@@ -9,7 +9,7 @@ import java.util.Map;
  * The task from real interview on Middle Java Developer position.
  * Return Map where:
  * Key is Developer Name
- * Value is List of Tasks Title assigned to Developer
+ * Value is List of Task Title assigned to Developer
  *
  * Handle non-consistent cases:
  * 1. Developer::getId not present in Assignment::getDeveloperId - add Developer::getName with Collections::emptyList
