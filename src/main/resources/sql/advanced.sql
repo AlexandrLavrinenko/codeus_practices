@@ -32,13 +32,10 @@ WHERE name = 'YourName'
 -- 2) Round the obtained time result in "minutes" to tenths. [15.788888 -> 15.8]
 --              [ROUND(duration, 1) AS rounded_duration]
 
-SELECT id,
-       name,
-       ROUND(EXTRACT(EPOCH FROM (finished_at - created_at)) / 60, 1) as "minutes"
+SELECT *
+-- TODO: Write your solution here
 FROM students
-WHERE ROUND(EXTRACT(EPOCH FROM (finished_at - created_at)) / 60, 1) > 0
-ORDER BY ROUND(EXTRACT(EPOCH FROM (finished_at - created_at)) / 60, 1)
-LIMIT 3;
+;
 
 
 -- ------------------------------------------------------------------------------------------------
@@ -51,9 +48,8 @@ LIMIT 3;
 -- Note: Round the obtained time result in "minutes" to tenths. [15.788888 -> 15.8]
 -- Use the formula: ROUND(duration, 1) AS rounded_duration
 
-SELECT count(id)                                                                           as "cnt",
-       ROUND(EXTRACT(EPOCH FROM (max(finished_at) - min(created_at))) / 60, 1)             as "minutes",
-       ROUND(EXTRACT(EPOCH FROM (max(finished_at) - min(created_at))) / 60, 1) / count(id) as "avg_minutes"
+SELECT *
+-- TODO: Write your solution here
 FROM students;
 
 -- ------------------------------------------------------------------------------------------------
@@ -63,14 +59,10 @@ FROM students;
 
 -- Note: See the "end_date" field and compare with the current date.
 
-SELECT a.user_id,
-       a.id                        as "acc_id",
-       (a.amount * n.rate) / 100.0 as "max_curr_uah_eq"
+SELECT *
+-- TODO: Write your solution here
 FROM accounts as a
-         JOIN nbu_rates as n on n.ccy = a.currency AND n.ccy_date = CURRENT_DATE
-WHERE a.end_date >= CURRENT_DATE
-ORDER BY a.amount DESC
-LIMIT 1;
+;
 
 -- ------------------------------------------------------------------------------------------------
 -- #15. HARD.
@@ -84,58 +76,7 @@ LIMIT 1;
 -- Note: use table 'nbu_rates' for rates for different types of currencies (rate for current day).
 
 
--- a) Creating a temporary table with index(es)
-DROP TABLE IF EXISTS current_nbu_rates;
-CREATE TEMP TABLE current_nbu_rates
-(
-    ccy          CHAR(3) PRIMARY KEY NOT NULL,
-    current_rate NUMERIC(6, 2)
-);
-
--- b) Filling the temporary table the datas:
-INSERT INTO current_nbu_rates
-SELECT n.ccy, n.rate
-FROM nbu_rates as n
-WHERE ccy_date = CURRENT_DATE;
-
--- c) Making the temporary table for accounts:
-CREATE TEMP TABLE temp_accounts AS
-SELECT u.id                                   as "user_id",
-       u.name,
-       count(a.id)                            as "cnt_acc",
-       sum(a.amount * n.current_rate / 100.0) as "sum_uah_ba_acc"
-FROM users as u
-         LEFT JOIN accounts as a on a.user_id = u.id
-         LEFT JOIN current_nbu_rates as n on n.ccy = a.currency
-GROUP BY u.id, u.name
-ORDER BY u.id
-;
-
--- d) Making the temporary table for credits:
-CREATE TEMP TABLE temp_credits AS
-SELECT u.id                                   as "user_id",
-       u.name,
-       count(c.id)                            as "cnt_cred",
-       sum(c.amount * n.current_rate / 100.0) as "sum_uah_ba_cred"
-FROM users as u
-         LEFT JOIN credits c on c.user_id = u.id
-         LEFT JOIN current_nbu_rates as n on n.ccy = c.currency
-GROUP BY u.id, u.name
-ORDER BY u.id
-;
-
--- e) Making the general query with the temporary table
-SELECT u.id                                   as "user_id",
-       u.name,
-       ta.cnt_acc,
-       ta.sum_uah_ba_acc,
-       tc.cnt_cred,
-       tc.sum_uah_ba_cred,
-       ta.sum_uah_ba_acc + tc.sum_uah_ba_cred as "diff"
-FROM users as u
-         LEFT JOIN temp_accounts as ta on ta.user_id = u.id
-         LEFT JOIN temp_credits as tc on tc.user_id = u.id
-ORDER BY u.id;
+-- TODO: Write your solution here
 
 
 -- ------------------------------------------------------------------------------------------------
@@ -145,76 +86,4 @@ ORDER BY u.id;
 -- (i.e. is less than) the total Big Amount of their credits.
 -- Result: "user_id", "name", "cnt_acc", "sum_uah_ba_acc", "cnt_cred", "sum_uah_ba_cred", "diff"
 
--- a) Creating a temporary table with index(es)
-DROP TABLE IF EXISTS current_nbu_rates;
-CREATE TEMP TABLE current_nbu_rates
-(
-    ccy          CHAR(3) PRIMARY KEY NOT NULL,
-    current_rate NUMERIC(6, 2)
-);
-
--- b) Filling the temporary table the datas:
-INSERT INTO current_nbu_rates
-SELECT n.ccy, n.rate
-FROM nbu_rates as n
-WHERE ccy_date = CURRENT_DATE;
-
--- c) Making the temporary table for accounts:
-DROP TABLE IF EXISTS t_accounts;
-CREATE TEMP TABLE t_accounts AS
-SELECT u.id                                   as "user_id",
-       u.name,
-       count(a.id)                            as "cnt_acc",
-       sum(a.amount * n.current_rate / 100.0) as "sum_uah_ba_acc"
-FROM users as u
-         LEFT JOIN accounts as a on a.user_id = u.id AND a.end_date >= CURRENT_DATE
-         LEFT JOIN current_nbu_rates as n on n.ccy = a.currency
-GROUP BY u.id, u.name
-ORDER BY u.id
-;
-
--- d) Making the temporary table for credits:
-DROP TABLE IF EXISTS t_credits;
-CREATE TEMP TABLE t_credits AS
-SELECT u.id                                   as "user_id",
-       u.name,
-       count(c.id)                            as "cnt_cred",
-       sum(c.amount * n.current_rate / 100.0) as "sum_uah_ba_cred"
-FROM users as u
-         LEFT JOIN credits c on c.user_id = u.id AND c.end_date >= CURRENT_DATE
-         LEFT JOIN current_nbu_rates as n on n.ccy = c.currency
-GROUP BY u.id, u.name
-ORDER BY u.id
-;
-
--- e) Making the general query in the temp result table
-DROP TABLE IF EXISTS t_result;
-CREATE TEMP TABLE t_result AS
-SELECT u.id    as "user_id",
-       u.name,
-       ta.cnt_acc,
-       CASE
-           WHEN ta.sum_uah_ba_acc IS NULL
-               THEN 0.0
-           ELSE ta.sum_uah_ba_acc
-           END as "sum_uah_ba_acc",
-       tc.cnt_cred,
-       CASE
-           WHEN tc.sum_uah_ba_cred IS NULL
-               THEN 0.0
-           ELSE tc.sum_uah_ba_cred
-           END as "sum_uah_ba_cred",
-       CASE
-           WHEN ta.sum_uah_ba_acc IS NULL THEN tc.sum_uah_ba_cred
-           WHEN tc.sum_uah_ba_cred IS NULL THEN ta.sum_uah_ba_acc
-           ELSE ta.sum_uah_ba_acc + tc.sum_uah_ba_cred
-           END as "diff"
-FROM users as u
-         LEFT JOIN t_accounts as ta on ta.user_id = u.id
-         LEFT JOIN t_credits as tc on tc.user_id = u.id
-ORDER BY u.id;
-
--- f) And finally, checking the condition that diff < 0 in result temp table.
-SELECT *
-FROM t_result
-WHERE diff < 0;
+-- TODO: Write your solution here

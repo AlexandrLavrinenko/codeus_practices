@@ -3,7 +3,7 @@
 ### How well are you know SQL?
 
 Go
-to: [Git_Warmup](https://github.com/AlexandrLavrinenko/codeus_practices/tree/master/src/main/java/december/thursday)
+to: [Git_ThursdayWarmup](https://github.com/AlexandrLavrinenko/codeus_practices/blob/master/src/main/java/december/thursday/README.md)
 pull the project.<br>
 
 ## 1. Connect to a database:
