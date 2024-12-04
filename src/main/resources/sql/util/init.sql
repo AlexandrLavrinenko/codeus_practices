@@ -1,8 +1,16 @@
+-- Currency
+CREATE TABLE IF NOT EXISTS currencies
+(
+    ccy         CHAR(3) PRIMARY KEY,
+    description VARCHAR(20) NOT NULL
+);
+-- DROP TABLE currencies;
+
 -- NBU rates by the dates
 CREATE TABLE IF NOT EXISTS nbu_rates
 (
     ccy_date DATE          NOT NULL,
-    ccy      CHAR(3)       NOT NULL,
+    ccy CHAR(3) NOT NULL REFERENCES currencies (ccy),
     rate     NUMERIC(6, 2) NOT NULL,
     PRIMARY KEY (ccy_date, ccy)
 );
@@ -22,7 +30,7 @@ CREATE TABLE IF NOT EXISTS accounts
 (
     id         INT PRIMARY KEY,
     user_id    INT REFERENCES users (id),
-    currency   CHAR(3),
+    currency CHAR(3) REFERENCES currencies (ccy),
     amount     BIGINT CHECK (amount > 0),
     start_date DATE NOT NULL,
     end_date   DATE NOT NULL
@@ -34,7 +42,7 @@ CREATE TABLE IF NOT EXISTS credits
 (
     id         INT PRIMARY KEY,
     user_id    INT REFERENCES users (id),
-    currency   CHAR(3),
+    currency CHAR(3) REFERENCES currencies (ccy),
     amount     BIGINT NOT NULL,
     start_date DATE   NOT NULL,
     end_date   DATE   NOT NULL
@@ -58,6 +66,7 @@ DROP TABLE nbu_rates;
 DROP TABLE accounts;
 DROP TABLE credits;
 DROP TABLE users;
+DROP TABLE currencies;
 DROP TABLE students;
 */
 
