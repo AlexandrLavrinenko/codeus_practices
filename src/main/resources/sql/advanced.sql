@@ -14,7 +14,7 @@ ORDER BY id;
 
 UPDATE students
 SET finished_at = NOW()
-WHERE name = 'YourName'
+WHERE name = 'Potushniy'
 -- id = 1
 ;
 
