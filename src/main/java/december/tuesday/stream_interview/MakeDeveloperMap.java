@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toMap;
 /**
  * Return Map where:
  * Key is Developer Name
- * Value is List of Task Title assigned to Developer
+ * Value is List of Task titles assigned to Developer
  *
  * Handle non-consistent cases:
  * 1. Developer::getId not present in Assignment::getDeveloperId - add Developer::getName with Collections::emptyList
@@ -18,6 +18,16 @@ import static java.util.stream.Collectors.toMap;
  */
 public class MakeDeveloperMap {
 
+    /**
+     * Not Stream API method for return Developer's Map.
+     *
+     * @param tasks       list of {@link Task}.
+     * @param developers  list of {@link Developer}.
+     * @param assignments list of {@link Assignment}
+     * @return Map where:
+     * - Key is Developer Name
+     * - Value is List of Task Title assigned to Developer Handle.
+     */
     public static Map<String, List<String>> report(
             List<Task> tasks,
             List<Developer> developers,
@@ -26,41 +36,51 @@ public class MakeDeveloperMap {
 
         for (Developer developer : developers) {
             var assigments = assignments.stream()
-                    .filter(as -> developer.getId() == as.getDeveloperId())
-                    .map(Assignment::getTaskId)
+                    .filter(as -> developer.id() == as.developerId())
+                    .map(Assignment::taskId)
                     .toList();
 
             var tasksList = tasks.stream()
-                    .filter(tsk -> assigments.contains(tsk.getId()))
-                    .map(Task::getTitle)
+                    .filter(tsk -> assigments.contains(tsk.id()))
+                    .map(Task::title)
                     .toList();
 
-            reportMap.put(developer.getName(), tasksList);
+            reportMap.put(developer.name(), tasksList);
         }
 
         return reportMap;
     }
 
+    /**
+     * Method with Stream API for return Developer's Map.
+     *
+     * @param tasks       list of {@link Task}.
+     * @param developers  list of {@link Developer}.
+     * @param assignments list of {@link Assignment}
+     * @return Map where:
+     * - Key is Developer Name
+     * - Value is List of Task Title assigned to Developer Handle.
+     */
     public static Map<String, List<String>> reportWithStreams(
             List<Task> tasks,
             List<Developer> developers,
             List<Assignment> assignments) {
 
         Map<Integer, String> taskMap = tasks.stream()
-                .collect(toMap(Task::getId, Task::getTitle));
+                .collect(toMap(Task::id, Task::title));
 
         Map<Integer, String> developerMap = developers.stream()
-                .collect(toMap(Developer::getId, Developer::getName));
+                .collect(toMap(Developer::id, Developer::name));
 
         Map<String, List<String>> report = developers.stream()
-                .collect(toMap(Developer::getName, dev -> new ArrayList<>()));
+                .collect(toMap(Developer::name, dev -> new ArrayList<>()));
 
         assignments.stream()
-                .filter(assignment -> taskMap.containsKey(assignment.getTaskId()))
+                .filter(assignment -> taskMap.containsKey(assignment.taskId()))
                 .forEach(assignment -> {
-                    String developerName = developerMap.get(assignment.getDeveloperId());
+                    String developerName = developerMap.get(assignment.developerId());
                     if (developerName != null) {
-                        report.get(developerName).add(taskMap.get(assignment.getTaskId()));
+                        report.get(developerName).add(taskMap.get(assignment.taskId()));
                     }
                 });
 
@@ -74,15 +94,15 @@ public class MakeDeveloperMap {
 
         // Creating a task map for quick access to task titles by their identifiers
         Map<Integer, String> taskMap = tasks.stream()
-                .collect(toMap(Task::getId, Task::getTitle));
+                .collect(toMap(Task::id, Task::title));
 
         return developers.stream()
                 .collect(toMap(
-                        Developer::getName,
+                        Developer::name,
                         dev -> assignments.stream()
-                                .filter(a -> a.getDeveloperId() == dev.getId())
-                                .filter(a -> taskMap.containsKey(a.getTaskId()))
-                                .map(a -> taskMap.get(a.getTaskId()))
+                                .filter(a -> a.developerId() == dev.id())
+                                .filter(a -> taskMap.containsKey(a.taskId()))
+                                .map(a -> taskMap.get(a.taskId()))
                                 .toList(),
                         // в разі конфлікту залишаємо наявне значення
                         (existing, replacement) -> existing
@@ -94,81 +114,4 @@ public class MakeDeveloperMap {
         map.forEach((k, v) -> System.out.println(k + ": " + v));
     }
 
-    public static class Task {
-        int id;
-        String title;
-
-        public Task(int id, String title) {
-            this.id = id;
-            this.title = title;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-    }
-
-    public static class Developer {
-        int id;
-        String name;
-
-        public Developer(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    public static class Assignment {
-        int taskId;
-        int developerId;
-
-        public Assignment(int taskId, int developerId) {
-            this.taskId = taskId;
-            this.developerId = developerId;
-        }
-
-        public int getTaskId() {
-            return taskId;
-        }
-
-        public void setTaskId(int taskId) {
-            this.taskId = taskId;
-        }
-
-        public int getDeveloperId() {
-            return developerId;
-        }
-
-        public void setDeveloperId(int developerId) {
-            this.developerId = developerId;
-        }
-    }
 }
