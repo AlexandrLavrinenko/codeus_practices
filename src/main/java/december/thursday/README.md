@@ -36,9 +36,13 @@ Database diagram: <br>
 <br>Presentation: <br>
 [Основні команди SQL-запитів .pdf](../../../resources/images/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%96%20%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B8%20SQL-%D0%B7%D0%B0%D0%BF%D0%B8%D1%82%D1%96%D0%B2%20.pdf)
 
+# D. Homework practice
 If you want to go through the training again, you can raise the base yourself using the command (Docker must be
 installed): <br>
 ```docker run --rm  --name codeus-postgres  -e POSTGRES_PASSWORD=theOneWhoGetsUpEarly -e POSTGRES_USER=codeus -e POSTGRES_DB=morning_codeus -p 5433:5432 -d postgres:16.0```
 <br> 1. Use the [init.sql](../../../resources/sql/util/init.sql)
 <br> 2. And then use [fill_date.sql](../../../resources/sql/util/fill_date.sql)
+
+If you want to expose your DB remotely, use the
+link [How to Expose PostgreSQL Remotely Using ngrok](https://meroxa.com/blog/how-to-expose-postgresql-remotely-using-ngrok/).
 

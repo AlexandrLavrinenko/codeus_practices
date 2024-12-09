@@ -9,7 +9,7 @@ import java.util.Map;
  * The task from real interview on Middle Java Developer position.
  * Return Map where:
  * Key is Developer Name
- * Value is List of Task Title assigned to Developer
+ * Value is List of Task titles assigned to Developer
  *
  * Handle non-consistent cases:
  * 1. Developer::getId not present in Assignment::getDeveloperId - add Developer::getName with Collections::emptyList
@@ -25,7 +25,7 @@ public class MakeDeveloperMap {
      * @param assignments list of {@link Assignment}
      * @return Map where:
      * - Key is Developer Name
-     * - Value is List of Tasks Title assigned to Developer Handle.
+     * - Value is List of Task Title assigned to Developer Handle.
      */
     public static Map<String, List<String>> report(
             List<Task> tasks,
@@ -41,7 +41,7 @@ public class MakeDeveloperMap {
      * @param assignments list of {@link Assignment}
      * @return Map where:
      * - Key is Developer Name
-     * - Value is List of Tasks Title assigned to Developer Handle.
+     * - Value is List of Task Title assigned to Developer Handle.
      */
     public static Map<String, List<String>> reportWithStreams(
             List<Task> tasks,
@@ -57,81 +57,4 @@ public class MakeDeveloperMap {
         map.forEach((k, v) -> System.out.println(k + ": " + v));
     }
 
-    public static class Task {
-        int id;
-        String title;
-
-        public Task(int id, String title) {
-            this.id = id;
-            this.title = title;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-    }
-
-    public static class Developer {
-        int id;
-        String name;
-
-        public Developer(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    public static class Assignment {
-        int taskId;
-        int developerId;
-
-        public Assignment(int taskId, int developerId) {
-            this.taskId = taskId;
-            this.developerId = developerId;
-        }
-
-        public int getTaskId() {
-            return taskId;
-        }
-
-        public void setTaskId(int taskId) {
-            this.taskId = taskId;
-        }
-
-        public int getDeveloperId() {
-            return developerId;
-        }
-
-        public void setDeveloperId(int developerId) {
-            this.developerId = developerId;
-        }
-    }
 }
